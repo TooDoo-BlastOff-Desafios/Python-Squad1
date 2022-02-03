@@ -4,25 +4,31 @@ from django.urls import path, include
 from rest_framework import routers
 from cliente.api import viewsets as vsc
 from deposito.api import viewsets as vsd
-from hgbrasil.api import viewsets as vsb
 from transferencia.api import viewsets as vst
+from compra.api import viewsets as vscom
+from financeiro.api import viewsets as vsfinan
 
 from cliente.views import ClienteAPIView
 from deposito.views import DepositoAPIView
-from hgbrasil.views import HGBrasilAPIView
+from compra.views import CompraAPIView
 from transferencia.views import TransferenciaAPIView
+from financeiro.views import FinanceiroAPIView
 
 route = routers.DefaultRouter()
 route.register(r'cadastrar_cliente', vsc.ClienteViewset, basename='cliente')
 route.register(r'fazer_deposito', vsd.DepositoViewset, basename='deposito')
 route.register(r'fazer_transferencia', vst.TransferenciaViewSet, basename='transferencia')
-route.register(r'HGBrasil', vsb.HGBrasilViewset, basename='hgbrasil')
+route.register(r'fazer_compra', vscom.CompraViewSet, basename='compra')
+route.register(r'analise_moedas', vsfinan.FinanceiroViewset, basename='financeiro')
+#route.register(r'teste', FinanceiroAPIView.as_view, basename='teste')
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include(route.urls)),
-    path('listar_clientes/', ClienteAPIView.as_view(), name='clientes'),
+    path('clientes/', ClienteAPIView.as_view(), name='clientes'),
     path('depositos/', DepositoAPIView.as_view(), name='depositos'),
-    path('financeiro/', HGBrasilAPIView.as_view(), name='financeiro'),
-    path('transferencia/', TransferenciaAPIView.as_view(), name='transferencia')
+    path('transferencia/', TransferenciaAPIView.as_view(), name='transferencia'),
+    path('compra/', CompraAPIView.as_view(), name='compra'),
+    path('financeiro/', FinanceiroAPIView.as_view(), name='financeiro')
 ]

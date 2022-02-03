@@ -1,4 +1,3 @@
-from multiprocessing import managers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
@@ -11,8 +10,8 @@ class TransferenciaAPIView(APIView):
     API de transferências do banco
     """
     def get(self, request):
-        depositos = Transferencia.objects.all()
-        infos = serializers.TransferenciaSerializer(depositos, many=True)
+        transferencia = Transferencia.objects.all()
+        infos = serializers.TransferenciaSerializer(transferencia, many=True)
         return Response(infos.data)
 
     def post(self, request):
@@ -20,4 +19,3 @@ class TransferenciaAPIView(APIView):
         infos.is_valid(raise_exception=True)
         infos.save()
         return Response(infos.data, status=status.HTTP_201_CREATED)
-

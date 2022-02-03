@@ -2,20 +2,20 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 
-from cliente.models import Cliente
-from cliente.api import serializers
+from compra.models import Compra
+from compra.api import serializers
 
-class ClienteAPIView(APIView):
+class CompraAPIView(APIView):
     """
-    API de clientes do banco
+    API de compras 
     """
     def get(self, request):
-        clientes = Cliente.objects.all()
-        infos = serializers.ClienteSerializer(clientes, many=True)
+        compra = Compra.objects.all()
+        infos = serializers.CompraSerializer(compra, many=True)
         return Response(infos.data)
 
     def post(self, request):
-        infos = serializers.ClienteSerializer(data=request.data)
+        infos = serializers.CompraSerializer(data=request.data)
         infos.is_valid(raise_exception=True)
         infos.save()
         return Response(infos.data, status=status.HTTP_201_CREATED)
