@@ -4,6 +4,8 @@ from rest_framework import status
 
 from transferencia.models import Transferencia
 from transferencia.api import serializers
+from cliente.models import Cliente
+from notificacao.models import Notificacao
 
 class TransferenciaAPIView(APIView):
     """
@@ -15,6 +17,26 @@ class TransferenciaAPIView(APIView):
         return Response(infos.data)
 
     def post(self, request):
+        cliente1 = Cliente.objects.get(cpf=request.data['cliente1_cpf_transf'])
+        cliente2 = Cliente.objects.get(cpf=request.data['cliente2_cpf_transf'])
+        valor = request.data['quantia']
+        
+        if cliente1.saldo >= valor :
+            cliente1.saldo -= valor 
+            cliente1.save()
+
+            cliente2.saldo += valor 
+            cliente2.save()
+
+            Notificacao.objects.create(cpf_remetente=cliente1, cpf_destinatario=cliente2, valor=valor )
+            #for item in notificacao1:
+            #    item.save()
+
+            
+        else:
+            return Response("Saldo insuficiente para realizar a transferência")
+            
+
         infos = serializers.TransferenciaSerializer(data=request.data)
         infos.is_valid(raise_exception=True)
         infos.save()
