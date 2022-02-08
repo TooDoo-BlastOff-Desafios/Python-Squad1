@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Cliente(models.Model):
+class Cliente(models.Model):    
     cpf = models.CharField(primary_key=True, max_length=11, editable=True)
     nome = models.CharField(max_length=100, blank=False, null=False)
     senha = models.CharField(max_length=100, blank=False, null=False)
@@ -11,3 +11,4 @@ class Cliente(models.Model):
     estado = models.CharField(max_length=20, blank=False, null=False)
     pais = models.CharField(max_length=20, blank=False, null=False)
     nascimento = models.DateField(blank=False, null=False)
+    saldo = models.FloatField(default=0, editable=False)

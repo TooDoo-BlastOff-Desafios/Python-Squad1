@@ -6,5 +6,7 @@ class Transferencia(models.Model):
     id_transf = models.UUIDField(primary_key=True, default=uuid4, editable=False)
     quantia = models.FloatField()
     data_transf = models.DateField()
-    cliente_cpf_transf = models.ForeignKey(Cliente, on_delete=models.CASCADE, blank=True, null=True)
+    descricao = models.CharField(max_length=255)
+    cliente1_cpf_transf = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='remetente')
+    cliente2_cpf_transf = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name='destinatario')
 
